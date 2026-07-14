@@ -1,19 +1,19 @@
 {
   "manifest_version": "0.3",
-  "name": "excalidraw-mcp-app",
-  "display_name": "Excalidraw",
-  "version": "0.3.2",
-  "description": "Hand-drawn diagrams with streaming animations, fullscreen editing, checkpoint/restore, and one-click export to excalidraw.com.",
-  "long_description": "An MCP App server that renders Excalidraw diagrams with hand-drawn style. Features streaming SVG rendering with draw-on animations, smooth viewport camera panning, label binding, interactive fullscreen editing with export to excalidraw.com, checkpoint/restore for iterative edits, and screenshot context sent back to Claude for feedback.",
+  "name": "excalidraw-agent-mcp",
+  "display_name": "Excalidraw Agent",
+  "version": "0.4.0",
+  "description": "Local-first Mermaid-to-Excalidraw boards for Codex, Claude, VS Code, and other MCP clients.",
+  "long_description": "A local-first fork of the Excalidraw MCP App server. Agents can convert Mermaid into durable editable Excalidraw boards, add information panels, reopen and version boards, save manual edits in a standalone local editor, export portable .excalidraw files, and still use the upstream streaming MCP App experience.",
   "author": {
-    "name": "Anton Pidkuiko",
-    "url": "https://github.com/antonpk1"
+    "name": "Excalidraw Agent fork",
+    "url": "https://github.com/excalidraw/excalidraw-mcp"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/antonpk1/excalidraw-mcp-app.git"
+    "url": "https://github.com/excalidraw/excalidraw-mcp.git"
   },
-  "homepage": "https://github.com/antonpk1/excalidraw-mcp-app",
+  "homepage": "https://github.com/excalidraw/excalidraw-mcp",
   "icon": "docs/logo.png",
   "server": {
     "type": "node",
@@ -31,9 +31,33 @@
     {
       "name": "create_view",
       "description": "Renders a hand-drawn diagram using Excalidraw elements with streaming draw-on animations."
+    },
+    {
+      "name": "create_board",
+      "description": "Creates a durable editable Excalidraw board from Mermaid source and notes."
+    },
+    {
+      "name": "get_board",
+      "description": "Reads a board, its Mermaid source, notes, and current version."
+    },
+    {
+      "name": "update_board",
+      "description": "Updates a versioned board while protecting concurrent manual edits."
+    },
+    {
+      "name": "list_boards",
+      "description": "Lists durable Excalidraw boards."
+    },
+    {
+      "name": "export_board",
+      "description": "Returns a portable .excalidraw file or document."
+    },
+    {
+      "name": "delete_board",
+      "description": "Deletes a durable board after client approval."
     }
   ],
-  "keywords": ["excalidraw", "diagrams", "drawing", "visualization", "mcp-app"],
+  "keywords": ["excalidraw", "mermaid", "diagrams", "codex", "claude", "vscode", "mcp-app"],
   "compatibility": {
     "platforms": ["darwin", "win32", "linux"],
     "runtimes": {

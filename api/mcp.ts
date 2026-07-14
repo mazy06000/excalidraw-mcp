@@ -1,14 +1,16 @@
 import { createMcpHandler } from "mcp-handler";
 import path from "node:path";
+import { MemoryBoardStore } from "../src/board-store.js";
 import { createVercelStore } from "../src/checkpoint-store.js";
 import { registerTools } from "../src/server.js";
 
 const store = createVercelStore();
+const boardStore = new MemoryBoardStore();
 
 const mcpHandler = createMcpHandler(
   (server) => {
     const distDir = path.join(process.cwd(), "dist");
-    registerTools(server, distDir, store);
+    registerTools(server, distDir, store, boardStore, process.env.PUBLIC_BASE_URL ?? null);
   },
   { serverInfo: { name: "Excalidraw", version: "1.0.0" } },
   { basePath: "", maxDuration: 60, sessionIdGenerator: undefined },

@@ -31,10 +31,18 @@ renameSync(
 );
 rmSync(join(root, "dist", "src"), { recursive: true, force: true });
 
-// 4. Build server types
+// 4. Build the standalone durable-board editor
+run("vite build --config vite.config.editor.ts");
+renameSync(
+  join(root, "dist", "editor", "src", "board-editor.html"),
+  join(root, "dist", "board-editor.html"),
+);
+rmSync(join(root, "dist", "editor"), { recursive: true, force: true });
+
+// 5. Build server types
 run("tsc -p tsconfig.server.json");
 
-// 5. Bundle server + index
+// 6. Bundle server + index
 run('bun build "src/server.ts" --outdir dist --target node');
 run(
   'bun build "src/main.ts" --outfile "dist/index.js" --target node --banner "#!/usr/bin/env node"',

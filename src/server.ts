@@ -6,6 +6,8 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { deflateSync } from "node:zlib";
 import { z } from "zod/v4";
+import type { BoardStore } from "./board-store.js";
+import { registerBoardTools } from "./board-tools.js";
 import type { CheckpointStore } from "./checkpoint-store.js";
 
 /** Maximum allowed size for element/data input strings (5 MB). */
@@ -398,8 +400,18 @@ Use the Primary Colors from above — they're bright enough on dark backgrounds.
  * Registers all Excalidraw tools and resources on the given McpServer.
  * Shared between local (main.ts) and Vercel (api/mcp.ts) entry points.
  */
-export function registerTools(server: McpServer, distDir: string, store: CheckpointStore): void {
+export function registerTools(
+  server: McpServer,
+  distDir: string,
+  store: CheckpointStore,
+  boardStore?: BoardStore,
+  editorBaseUrl: string | null = null,
+): void {
   const resourceUri = "ui://excalidraw/mcp-app.html";
+
+  if (boardStore) {
+    registerBoardTools(server, boardStore, editorBaseUrl);
+  }
 
   // ============================================================
   // Tool 1: read_me (call before drawing)
@@ -686,11 +698,17 @@ However, if the user wants to edit something on this diagram "${checkpointId}", 
  * Creates a new MCP server instance with Excalidraw drawing tools.
  * Used by local entry point (main.ts) and Docker deployments.
  */
-export function createServer(store: CheckpointStore): McpServer {
+export function createServer(
+  store: CheckpointStore,
+  boardStore?: BoardStore,
+  editorBaseUrl: string | null = null,
+): McpServer {
   const server = new McpServer({
     name: "Excalidraw",
-    version: "1.0.0",
+    version: "1.1.0",
+  }, {
+    instructions: `Use create_board for durable architecture, process, sequence, data-flow, collaboration, and presentation diagrams. Supply valid Mermaid plus useful notes; the tool returns an editable local URL and .excalidraw file. Before changing an existing board, call get_board and pass its version to update_board. Use create_view only for an ephemeral inline MCP App drawing.`,
   });
-  registerTools(server, DIST_DIR, store);
+  registerTools(server, DIST_DIR, store, boardStore, editorBaseUrl);
   return server;
 }

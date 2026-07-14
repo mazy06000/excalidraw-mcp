@@ -1,0 +1,82 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  background: #f8f9fa;
+}
+
+.board-shell {
+  display: grid;
+  grid-template-rows: 46px 1fr;
+  width: 100%;
+  height: 100%;
+}
+
+.board-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 16px;
+  color: #343a40;
+  background: #fff;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.board-title {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.board-id {
+  overflow: hidden;
+  color: #868e96;
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.save-state {
+  margin-left: auto;
+  color: #2b8a3e;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.save-state.error {
+  color: #c92a2a;
+}
+
+.board-canvas {
+  min-width: 0;
+  min-height: 0;
+}
+
+.board-loading,
+.board-error {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  color: #495057;
+  text-align: center;
+}
+
+.board-error {
+  color: #c92a2a;
+}

@@ -5,4 +5,5 @@ dist/
 .vercel
 bun.lock
 .vscode
+.tmp/
 opencode.json
